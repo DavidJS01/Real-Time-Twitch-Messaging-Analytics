@@ -32,9 +32,12 @@ def get_stream_status(data):
 def thread_placeholder_name(stream_list):
     for stream in stream_list:
         data = get_streamer_info(stream)
-        get_stream_status(data)
-        thread = threading.Thread(target=read_chat, args=(data,))
-        thread.start()
+        is_online = get_stream_status(data)
+        if(is_online == True):
+            thread = threading.Thread(target=read_chat, args=(data,))
+            thread.start()
+        else:
+            pass # @TODO: change this for later
         
 
 def parse_chat(resp):
