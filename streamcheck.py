@@ -1,6 +1,7 @@
 import requests
 import socket
 import threading
+import logging
 import os
 
 client_id = f'{os.environ["ClientID"]}'
@@ -31,14 +32,15 @@ def get_stream_status(data):
 
 def thread_placeholder_name(stream_list):
     for stream in stream_list:
-        data = get_streamer_info(stream)
-        is_online = get_stream_status(data)
-        if(is_online == True):
-            thread = threading.Thread(target=read_chat, args=(data,))
-            thread.start()
-        else:
-            pass # @TODO: change this for later
-        
+        try:
+            data = get_streamer_info(stream)
+            is_online = get_stream_status(data)
+            if(is_online == True):
+                thread = threading.Thread(target=read_chat, args=(data,))
+                thread.start()
+        except IndexError as e:
+                if(str(e) == 'list index out of range'):
+                    logging.info(f"The stream for {stream} is offline")
 
 def parse_chat(resp):
     resp = resp.rstrip().split('\r\n')
