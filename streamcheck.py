@@ -1,5 +1,6 @@
 import requests
 import socket
+import threading
 import os
 
 client_id = f'{os.environ["ClientID"]}'
@@ -8,6 +9,8 @@ auth_url = 'https://id.twitch.tv/oauth2/token'
 oauth = f'{os.environ["oauth"]}'
 
 aut_params = {'client_id': client_id, 'client_secret': secret, 'grant_type': 'client_credentials'}
+
+
 
 def get_streamer_info(streamer_name):
     AutCall = requests.post(url=auth_url, params=aut_params) 
@@ -25,6 +28,14 @@ def get_stream_status(data):
     if data[0]['type'] == 'live':
         stream_status = True
     return stream_status
+
+def thread_placeholder_name(stream_list):
+    for stream in stream_list:
+        data = get_streamer_info(stream)
+        get_stream_status(data)
+        thread = threading.Thread(target=read_chat, args=(data,))
+        thread.start()
+        
 
 def parse_chat(resp):
     resp = resp.rstrip().split('\r\n')

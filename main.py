@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-from streamcheck import get_streamer_info, get_stream_status, read_chat
-import socket
-import os
+from streamcheck import thread_placeholder_name
 
-data = get_streamer_info('vgbootcamp')
-print(data)
-is_live = get_stream_status(data)
 
-if(is_live == True):
-    read_chat(data)
+streams = ['vgbootcamp', 'quantum']
+
+thread_placeholder_name(streams)
+# is_live = get_stream_status()
+
+# if(is_live == True):
+#     read_chat()
 
     
 
