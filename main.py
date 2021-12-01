@@ -2,7 +2,7 @@
 from streamcheck import thread_placeholder_name
 
 
-streams = ['vgbootcamp', 'quantum']
+streams = ['loltyler1']
 
 
 thread_placeholder_name(streams)

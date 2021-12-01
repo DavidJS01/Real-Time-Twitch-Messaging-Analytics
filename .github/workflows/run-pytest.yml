@@ -1,0 +1,6 @@
+name: run-pytest
+on: [push]
+jobs:
+  run-python-tests:
+    runs-on: debian-latest
+    steps:
