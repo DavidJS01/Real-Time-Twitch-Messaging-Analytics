@@ -2,14 +2,11 @@
 from streamcheck import thread_placeholder_name
 
 
-streams = ['loltyler1']
+streams = ['drututt', 'solarbacca', 'dunlol', 'aphromoo', 'veigarv2']
 
 
 thread_placeholder_name(streams)
-# is_live = get_stream_status()
 
-# if(is_live == True):
-#     read_chat()
 
     
 

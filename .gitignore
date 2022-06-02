@@ -1,1 +1,3 @@
-messaging_analytics/database/
+messaging_analytics/data/
+messaging_analytics/__pycache__
+.env
