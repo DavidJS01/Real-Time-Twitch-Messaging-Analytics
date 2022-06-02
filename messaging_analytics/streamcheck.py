@@ -3,10 +3,7 @@ import socket
 import threading
 import logging
 import os
-from kafka import KafkaProducer, KafkaConsumer
 
-consumer = KafkaConsumer('League', bootstrap_servers='localhost:9092')
-producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
 client_id = f'{os.environ["ClientID"]}'
 secret = f'{os.environ["Secret"]}'
@@ -23,9 +20,10 @@ def get_streams_api_data(parameters, head):
 def get_streamer_info(streamer_name):
     AutCall = requests.post(url=auth_url, params=aut_params) 
     access_token = AutCall.json()['access_token']
+
     headers = {
-        'Client-ID' : client_id,
-        'Authorization' :  "Bearer " + access_token
+        'Client-ID': client_id,
+        'Authorization': "Bearer " + access_token
         }
     return get_streams_api_data(f'user_login={streamer_name}',headers)
     
@@ -58,9 +56,7 @@ def parse_chat(resp):
             msg = line.split(':', maxsplit=2)[2]
             line = messager + ": " + msg
             line = line.encode('utf-8')
-            producer.send('League', value=line)
-            # consumer = KafkaConsumer('League')
-            print(f'Message sent to topic: {line}')
+            
 
 def read_chat(data):
     oauth = os.environ['oauth']
@@ -73,7 +69,6 @@ def read_chat(data):
     
 
     while True:
-        
         resp = sock.recv(2048).decode('utf-8')
         if resp.startswith('PING'):
             sock.send("PONG\n".encode('utf-8'))
