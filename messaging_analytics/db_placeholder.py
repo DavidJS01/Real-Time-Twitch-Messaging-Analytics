@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('./data/test_db.db')
+conn = sqlite3.connect('./data/test_db.db', check_same_thread=False)
 c = conn.cursor()
 
 def connect_to_db():
@@ -17,7 +17,7 @@ def insert_new_streamer(streamer_id, streamer_name):
     c.execute('INSERT OR IGNORE INTO streamers values (?,?)', (streamer_id, streamer_name))
     conn.commit()
 
-def create_viewers_table(): # This will be less ugly soon!
+def create_messages_table(): # This will be less ugly soon!
     c.execute('''
         CREATE TABLE IF NOT EXISTS messages ([viewer_name] TEXT, [streamer_id] INTEGER,
                                             [game] TEXT, [viewer_message] TEXT,
@@ -26,12 +26,14 @@ def create_viewers_table(): # This will be less ugly soon!
         ''')
     conn.commit()
 
-def insert_new_message(viewer_name, streamer_id, game, message):
-    c.execute('INSERT INTO messages VALUES (?,?,?,?, DATETIME("now"))', viewer_name, streamer_id, game, message)
+def insert_new_message(viewer_name, streamer_id, game, message): #@TODO: Make this prettier and less "hacky"
+    conn = sqlite3.connect('./data/test_db.db', check_same_thread=False)
+    c = conn.cursor()
+    c.execute('INSERT INTO messages VALUES (?,?,?,?, DATETIME("now"))', (viewer_name, streamer_id, game, message))
     conn.commit()
+    conn.close()
 
 connect_to_db()
 create_streamer_table()
-insert_new_streamer(123, "Kevin")
+create_messages_table()
 
-# how am i supposed to organize the directory
