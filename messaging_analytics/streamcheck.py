@@ -60,8 +60,6 @@ def parse_chat(resp, data):
         if "PRIVMSG" in line:
             messager = line.split(':')[1].split('!')[0]
             msg = line.split(':', maxsplit=2)[2]
-            line = messager + ": " + msg
-            line = line.encode('utf-8') 
             insert_new_message(messager, streamer_id, game, msg)
             
 
